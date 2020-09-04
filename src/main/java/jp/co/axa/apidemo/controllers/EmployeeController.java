@@ -20,36 +20,25 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(path = "/hello-world")
- 	public String helloWorld() {
- 		return "Hello World Neeva Jain";
- 	}
-
     @GetMapping("/employees")
     public List<Employee> getEmployees() {
-        System.out.println("Akshay 1 list All");
     	List<Employee> employees = employeeService.retrieveEmployees();
         return employees;
     }
     
     @GetMapping("/employees/{employeeId}")
     public Employee getEmployee(@PathVariable(name="employeeId")Long employeeId) {
-        System.out.println("Akshay 2 list by id");
-        
-        System.out.println("url hitted");
     	return employeeService.getEmployee(employeeId);
     }
    
     @PostMapping("/employee")
     public ResponseEntity<Void> saveEmployee(@RequestBody Employee employee){
-    	System.out.println("employee="+employee.getName());
-           employee.setId(-1L);
-       Employee saveEmployee =  employeeService.saveEmployee(employee);
-        System.out.println("Employee Saved Successfully");
+          employee.setId(-1L);
+         Employee saveEmployee =  employeeService.saveEmployee(employee);
+         System.out.println("Employee Saved Successfully");
             //Location//Get current resource url///{id}
       		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
       				.path("/{id}").buildAndExpand(saveEmployee.getId()).toUri();
-      		
       		return ResponseEntity.created(uri).build();
     }
 
